@@ -14,9 +14,9 @@ const Hero = ({ title, eventPeriod, venue, description, bannerImage }: HeroProps
     <section
       className="hero"
       id="top"
-      style={{ backgroundImage: `url(${bannerImage})` }}
       aria-labelledby="hero-title"
     >
+      <div className="hero-background-logo" style={{ backgroundImage: `url(${bannerImage})` }} aria-hidden="true" />
       <div className="hero-content">
         <div className="hero-text">
           <h1 id="hero-title" className="animate-bounce-in">

@@ -1,5 +1,4 @@
 ﻿import type { ReactNode } from 'react'
-import CountdownTimer from '@/components/CountdownTimer'
 import { siteConfig } from '@/config/site'
 
 const formatHeroDescription = (desc: string, index: number): ReactNode => {
@@ -49,7 +48,7 @@ const formatHeroDescription = (desc: string, index: number): ReactNode => {
 }
 
 const CtfPage = () => {
-  const { ctf, countdown } = siteConfig
+  const { ctf } = siteConfig
   const heroDescriptionCandidates = [
     ctf.heroDescription,
     ctf.heroDescription2,
@@ -90,7 +89,16 @@ const CtfPage = () => {
       </section>
 
       <section className="detail-section" id="ctf-timeline">
-        <div className="container two-column">
+        <div className="container ctf-detail-grid">
+          <div className="info-block info-block-wide">
+            <h2>참가 안내</h2>
+            <ul className="rule-list">
+              {(ctf.participation ?? []).map((rule) => (
+                <li key={rule}>{rule}</li>
+              ))}
+            </ul>
+          </div>
+          
           <div className="info-block">
             <h2>대회 일정</h2>
             <ul className="timeline-list">
@@ -102,6 +110,7 @@ const CtfPage = () => {
               ))}
             </ul>
           </div>
+          
           <div className="info-block">
             <h2>참가 유의사항</h2>
             <ul className="rule-list">
@@ -109,12 +118,19 @@ const CtfPage = () => {
                 <li key={rule}>{rule}</li>
               ))}
             </ul>
+            {ctf.rulesDocUrl && (
+              <a 
+                href={ctf.rulesDocUrl} 
+                className="rules-download-button"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                운영규정 다운로드
+              </a>
+            )}
           </div>
         </div>
       </section>
-
-      <CountdownTimer label={countdown.label} targetISO={countdown.targetISO} id="ctf-countdown" />
-
     </>
   )
 }

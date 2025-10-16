@@ -113,7 +113,7 @@ const LocationSection = ({
               </div>
               <div className="location-summary-info">
                 <div>
-                  <span className="location-summary-label">주소</span>
+                  <span className="location-summary-label">주소 </span>
                   <span className="location-summary-value">{summary.addressDetail}</span>
                 </div>
                 <div>

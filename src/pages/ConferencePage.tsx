@@ -1,8 +1,6 @@
 
 import { Fragment, type CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
-
-import SpeakerSection from '@/components/SpeakerSection'
 import { siteConfig } from '@/config/site'
 
 type AgendaItem = {
@@ -138,6 +136,9 @@ const ConferencePage = () => {
     ]
   }, [])
 
+  // 실제 발표자 정보가 있는지 확인
+  const hasRealSessions = normalizedAgenda.some((item) => !item.placeholder)
+
   const scheduleGridStyle = {
     '--schedule-track-count': trackOrder.length || 1,
   } as CSSProperties
@@ -178,14 +179,6 @@ const ConferencePage = () => {
         </div>
       </section>
 
-      <div id="conference-speakers">
-        <SpeakerSection
-          pillLabel={conference.introPill}
-          title={conference.introTitle}
-          description={conference.introDescription}
-          speakers={conference.speakers}
-        />
-      </div>
 
       <section className="detail-section">
         <div className="container">
@@ -196,7 +189,10 @@ const ConferencePage = () => {
                 <h2>프로그램 일정</h2>
               </div>
             </div>
-            <div className="conference-program-grid" style={scheduleGridStyle}>
+            <div 
+              className={`conference-program-grid ${!hasRealSessions ? 'conference-program-grid-placeholder' : ''}`}
+              style={scheduleGridStyle}
+            >
               <div className="program-grid-head program-grid-time-head">Time</div>
               {trackOrder.map((track) => (
                 <div className="program-grid-head" key={`track-head-${track}`}>

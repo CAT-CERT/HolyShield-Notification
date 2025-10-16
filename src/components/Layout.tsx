@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import SiteFooter from '@/components/SiteFooter'
 
@@ -17,6 +17,7 @@ type LayoutProps = {
 
 const Layout = ({ title, description, navLinks, logoSrc, footerText }: LayoutProps) => {
   const location = useLocation()
+  const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
     if (!location.hash) {
@@ -34,12 +35,24 @@ const Layout = ({ title, description, navLinks, logoSrc, footerText }: LayoutPro
     }
   }, [location])
 
+  useEffect(() => {
+    const appShell = document.querySelector('.app-shell')
+    if (!appShell) return
+
+    const handleScroll = () => {
+      setIsScrolled(appShell.scrollTop > 10)
+    }
+
+    appShell.addEventListener('scroll', handleScroll)
+    return () => appShell.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
     <div className="app-shell">
       <a className="skip-link" href="#main">
         본문 바로가기
       </a>
-      <header className="app-header">
+      <header className={`app-header ${isScrolled ? 'app-header-scrolled' : ''}`}>
         <div className="container nav-bar">
           <div className="brand">
             <Link className="brand-logo-link" to="/" aria-label={`${title} 홈으로 이동`}>

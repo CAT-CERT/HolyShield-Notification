@@ -1,7 +1,7 @@
 import Hero from '@/components/Hero'
 import CountdownTimer from '@/components/CountdownTimer'
 import AboutCatSection from '@/components/AboutCatSection'
-import CtfOverview from '@/components/CtfOverview'
+import OverviewSection from '@/components/OverviewSection'
 import LocationSection from '@/components/LocationSection'
 import { siteConfig } from '@/config/site'
 
@@ -15,9 +15,8 @@ const HomePage = () => {
         description={siteConfig.hero.description}
         bannerImage={siteConfig.hero.bannerImage}
       />
-      <CountdownTimer label={siteConfig.countdown.label} targetISO={siteConfig.countdown.targetISO} />
+      <OverviewSection />
       <AboutCatSection />
-      <CtfOverview />
       <LocationSection
         pillLabel={siteConfig.location.pillLabel}
         title={siteConfig.location.title}
@@ -28,6 +27,8 @@ const HomePage = () => {
         id="location"
         sections={siteConfig.location.sections}
       />
+      <CountdownTimer label={siteConfig.countdown.label} targetISO={siteConfig.countdown.targetISO} />
+
     </>
   )
 }
