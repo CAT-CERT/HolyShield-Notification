@@ -1,0 +1,145 @@
+import { useId, useState } from 'react'
+
+type LocationSectionProps = {
+  pillLabel: string
+  title: string
+  description: string
+  address: string
+  summary: {
+    campusName: string
+    addressDetail: string
+    phone: string
+  }
+  guideTitle: string
+  id?: string
+  sections: ReadonlyArray<{
+    heading: string
+    cards: ReadonlyArray<{
+      icon: string
+      badge: {
+        label: string
+        tone: 'blue' | 'green' | 'purple' | 'magenta' | 'neutral'
+      }
+      title: string
+      subtitle?: string
+      details: ReadonlyArray<string>
+    }>
+  }>
+}
+
+const LocationSection = ({
+  pillLabel,
+  title,
+  description,
+  address,
+  summary,
+  guideTitle,
+  id,
+  sections,
+}: LocationSectionProps) => {
+  const [activeTab, setActiveTab] = useState<'venue' | 'transit'>('venue')
+  const venueTabId = useId()
+  const transitTabId = useId()
+
+  return (
+    <section className="location-section" id={id} aria-labelledby="location-heading">
+      <div className="container location-container">
+        <div className="location-header">
+          <div className="location-tabs" role="tablist" aria-label="?âÏÇ¨ ?ÑÏπò Î∞?ÍµêÌÜµ ?àÎÇ¥">
+            <button
+              type="button"
+              role="tab"
+              id={venueTabId}
+              aria-selected={activeTab === 'venue'}
+              aria-controls={`${venueTabId}-panel`}
+              className={`location-tab ${activeTab === 'venue' ? 'location-tab-active' : ''}`}
+              onClick={() => setActiveTab('venue')}
+            >
+              ?âÏÇ¨ ?•ÏÜå
+            </button>
+            <button
+              type="button"
+              role="tab"
+              id={transitTabId}
+              aria-selected={activeTab === 'transit'}
+              aria-controls={`${transitTabId}-panel`}
+              className={`location-tab ${activeTab === 'transit' ? 'location-tab-active' : ''}`}
+              onClick={() => setActiveTab('transit')}
+            >
+              ?ÄÏ§ëÍµê???¥Ïö©Î∞©Î≤ï
+            </button>
+          </div>
+          <h2 id="location-heading">{title}</h2>
+          <p className="location-description">{description}</p>
+          <hr/>
+        </div>
+
+        <div className="location-panel">
+          {activeTab === 'venue' ? (
+            <div
+              className="location-summary-card"
+              role="tabpanel"
+              id={`${venueTabId}-panel`}
+              aria-labelledby={venueTabId}
+            >
+              <div className="location-summary-header">
+                <h3>{summary.campusName}</h3>
+                <p>{address}</p>
+              </div>
+              <div className="location-summary-info">
+                <div>
+                  <span className="location-summary-label">Ï£ºÏÜå</span>
+                  <span className="location-summary-value">{summary.addressDetail}</span>
+                </div>
+                <div>
+                  <span className="location-summary-label">?ÑÌôîÎ≤àÌò∏</span>
+                  <a className="location-summary-value" href={`tel:${summary.phone.replace(/[^0-9]/g, '')}`}>
+                    {summary.phone}
+                  </a>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div
+              className="location-details"
+              role="tabpanel"
+              id={`${transitTabId}-panel`}
+              aria-labelledby={transitTabId}
+            >
+              <h3 className="location-guide-title">{guideTitle}</h3>
+              {sections.map((section) => (
+                <div className="location-section-group" key={section.heading}>
+                  <h4>{section.heading}</h4>
+                  <div className="location-card-grid">
+                    {section.cards.map((card) => (
+                      <article className="location-card" key={card.title}>
+                        <div className="location-card-icon">
+                          <img src={card.icon} alt="" aria-hidden="true" />
+                          <span className={`location-badge badge-${card.badge.tone}`}>{card.badge.label}</span>
+                        </div>
+                        <div className="location-card-text">
+                          <h5>{card.title}</h5>
+                          {card.subtitle ? <p className="location-card-subtitle">{card.subtitle}</p> : null}
+                          {card.details.length > 0 ? (
+                            <ul>
+                              {card.details.map((detail) => (
+                                <li key={detail}>{detail}</li>
+                              ))}
+                            </ul>
+                          ) : null}
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export default LocationSection
+

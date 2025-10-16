@@ -1,0 +1,8 @@
+services:
+  holyshield-frontend:
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped
