@@ -75,8 +75,8 @@ export const siteConfig = {
           },
           {
             icon: '/map_subway_ico.png',
-            badge: { label: '1호선', tone: 'blue' as const },
-            title: '지하철 1호선 소사역 3번 출구',
+            badge: { label: '서해선', tone: 'green' as const },
+            title: '지하철 서해선 및 1호선 소사역 3번 출구',
             subtitle: '(학교 후문까지 도보 약 15분)',
             details: ['소사역 3번 출구 → 중앙공원 방면', '마을버스 환승 시 캠퍼스 정문 하차'],
           },
@@ -104,7 +104,7 @@ export const siteConfig = {
     ],
   },
   ctf: {
-    heroTitle: 'HolyShield 2025',
+    heroTitle: 'HolyShield Contest 2025',
     heroDescription: 'HolyShield Contest 2025는 CTF 형식과 CAT-Security에서 기획한 RPC(Role Playing Challenge) 형태의 대회가 진행됩니다.',
     heroDescription2: 'CTF : Jeopardy 형식이며, Web Hacking, Reversing, Pwnable 등 다양한 분야의 문제가 출제됩니다.',
     heroDescription3: 'RPC : 대회 운영측은 \"기업 보안팀\", 참가팀은 \"외부 모의침투 전문가\"가 되어 서비스 점검을 의뢰하고 수행합니다.\n총 3개의 목표(모의 침투, 악성코드 분석, Live Fire)를 수행하여 각 점수를 합산합니다.',
