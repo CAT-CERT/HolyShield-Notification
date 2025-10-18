@@ -75,9 +75,9 @@ const CtfPage = () => {
             </ul>
             {(
               <a 
-                href={ctf.rulesDocUrl || '/rule.png'}
+                href={'/HolyShield 2025 운영 규정.pdf'}
                 className="rules-download-button"
-                download="rule.png"
+                download={'HolyShield 2025 운영 규정.pdf'}
               >
                 운영규정 다운로드
               </a>
