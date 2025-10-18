@@ -136,8 +136,8 @@ const ConferencePage = () => {
     ]
   }, [])
 
-  // 실제 발표자 정보가 있는지 확인
-  const hasRealSessions = normalizedAgenda.some((item) => !item.placeholder)
+  // 실제 발표자 데이터가 하나라도 있는지 확인
+  const hasAnyPresenters = Array.isArray(conference.speakers) && conference.speakers.length > 0
 
   const isLunchRowFor = (row: { time: string; sessions: Record<string, NormalizedAgendaItem> }) => {
     const first = Object.values(row.sessions)[0]
@@ -198,7 +198,7 @@ const ConferencePage = () => {
               </div>
             </div>
             <div 
-              className={`conference-program-grid ${!hasRealSessions ? 'conference-program-grid-placeholder' : ''}`}
+              className={`conference-program-grid ${!hasAnyPresenters ? 'conference-program-grid-placeholder' : ''}`}
               style={scheduleGridStyle}
             >
               <div className="program-grid-head program-grid-time-head">Time</div>

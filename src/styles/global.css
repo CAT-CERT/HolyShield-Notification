@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Nanum+Gothic:wght@400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap');
 
 /* Animation keyframes */
 @keyframes fadeInUp {
@@ -1769,26 +1770,38 @@ ul {
 
 .conference-program-grid-placeholder {
   position: relative;
-  filter: blur(3px);
-  opacity: 0.4;
   pointer-events: none;
 }
 
+.conference-program-grid-placeholder::before {
+  content: '';
+  position: absolute;
+  inset: -30px; /* 표보다 조금 더 크게 덮음 */
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  background: rgba(10, 16, 48, 0.28);
+  border-radius: 14px;
+  z-index: 3;
+}
+
 .conference-program-grid-placeholder::after {
-  content: '발표자 정보 준비 중';
+  content: 'Veritas Vos Liberabit';
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--primary-700);
+  transform: translate(-50%, -50%) rotate(-8deg);
+  font-size: clamp(2.4rem, 6.5vw, 4rem);
+  font-weight: 700;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #eaf0ff;
+  text-shadow: 0 6px 18px rgba(5, 12, 40, 0.55), 0 2px 8px rgba(10, 18, 44, 0.45);
   text-align: center;
-  filter: blur(0);
-  opacity: 0.85;
+  filter: none;
+  opacity: 0.95;
   z-index: 10;
   pointer-events: none;
-  letter-spacing: 0.05em;
 }
 
 .program-grid-head {
@@ -2267,6 +2280,16 @@ ul {
   overflow: hidden;
   background: linear-gradient(135deg, #e8eeff 0%, #f5f7ff 50%, #e8f0ff 100%);
   padding: 3rem 0;
+}
+
+/* Hero darkening overlay toward bottom-right */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0; /* under .hero-content (z-index:1), above background logo */
+  background: linear-gradient(135deg, rgba(13, 20, 60, 0) 50%, rgba(13, 20, 60, 0.35) 100%);
 }
 
 .hero-background-logo {
