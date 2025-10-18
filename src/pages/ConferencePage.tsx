@@ -139,8 +139,16 @@ const ConferencePage = () => {
   // 실제 발표자 정보가 있는지 확인
   const hasRealSessions = normalizedAgenda.some((item) => !item.placeholder)
 
+  const isLunchRowFor = (row: { time: string; sessions: Record<string, NormalizedAgendaItem> }) => {
+    const first = Object.values(row.sessions)[0]
+    return Boolean(first && first.track === '공통' && /점심|lunch/i.test(first.title ?? ''))
+  }
+
   const scheduleGridStyle = {
     '--schedule-track-count': trackOrder.length || 1,
+    gridTemplateRows: `auto ${scheduleRows
+      .map((row) => (isLunchRowFor(row) ? '90px' : 'var(--schedule-row-height, 180px)'))
+      .join(' ')}`,
   } as CSSProperties
 
   const getTrackStyle = (track: string): CSSProperties => {
@@ -203,6 +211,7 @@ const ConferencePage = () => {
                 // 첫 번째 세션 가져오기 (공통 세션용)
                 const firstSession = Object.values(row.sessions)[0]
                 const isCommonSession = firstSession && firstSession.track === '공통'
+                const isLunchRow = isCommonSession && /점심|lunch/i.test(firstSession?.title ?? '')
 
                 // 모든 트랙이 비어있거나 전부 placeholder인지 확인
                 const allTracksEmptyOrPlaceholder = trackOrder.every((track) => {
@@ -212,29 +221,27 @@ const ConferencePage = () => {
 
                 return (
                   <Fragment key={`row-${row.time}`}>
-                    <div className="program-grid-time-cell">
+                    <div className={`program-grid-time-cell ${isLunchRow ? 'program-grid-time-cell-lunch' : ''}`}>
                       <span>{row.time}</span>
                     </div>
                     {isCommonSession ? (
                       // 공통 세션이면 셀 병합
                       <div
-                        className="program-grid-cell program-grid-cell-merged"
+                        className={`program-grid-cell program-grid-cell-merged ${isLunchRow ? 'program-grid-cell-lunch' : ''}`}
                         style={{ gridColumn: `span ${trackOrder.length}` }}
                       >
                         <div className="program-session-body">
-                          <h3 style={{ textAlign: 'center', fontSize: '1.2rem' }}>{firstSession.title}</h3>
+                          <h3 style={{ textAlign: 'center', fontSize: '1.2rem' }}>{isLunchRow ? 'Lunch' : firstSession.title}</h3>
                         </div>
                       </div>
                     ) : allTracksEmptyOrPlaceholder ? (
-                      // 모든 트랙이 비어있거나 전부 placeholder면 셀 병합 + 블러 + 미정
-                      <div
-                        className="program-grid-cell program-grid-cell-merged program-grid-cell-placeholder"
-                        style={{ gridColumn: `span ${trackOrder.length}` }}
-                      >
-                        <div className="program-placeholder-content">
-                          <span className="program-placeholder-text">미정</span>
-                        </div>
-                      </div>
+                      // 모든 트랙이 비어있거나 전부 placeholder면 각 트랙별 빈 셀 표시
+                      trackOrder.map((track) => (
+                        <div
+                          className="program-grid-cell program-grid-cell-empty"
+                          key={`${row.time}-${track}-empty`}
+                        />
+                      ))
                     ) : (
                       // 한쪽이라도 실제 세션이 있으면 각 트랙별로 표시
                       trackOrder.map((track) => {

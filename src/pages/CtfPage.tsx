@@ -1,51 +1,6 @@
-﻿import type { ReactNode } from 'react'
-import { siteConfig } from '@/config/site'
+﻿import { siteConfig } from '@/config/site'
 
-const formatHeroDescription = (desc: string, index: number): ReactNode => {
-  if (index === 0) {
-    return <strong>{desc}</strong>
-  }
-
-  const emphasizeQuotedSegments = (text: string): ReactNode[] => {
-    const nodes: ReactNode[] = []
-    let lastIndex = 0
-    const quoteRegex = /"[^"]+"/g
-    let match: RegExpExecArray | null
-    let quoteIndex = 0
-
-    while ((match = quoteRegex.exec(text)) !== null) {
-      if (match.index > lastIndex) {
-        nodes.push(text.slice(lastIndex, match.index))
-      }
-      nodes.push(
-        <strong key={`quote-${index}-${quoteIndex++}`}>{match[0]}</strong>
-      )
-      lastIndex = match.index + match[0].length
-    }
-
-    if (lastIndex < text.length) {
-      nodes.push(text.slice(lastIndex))
-    }
-
-    return nodes
-  }
-
-  if (desc.startsWith('CTF') || desc.startsWith('RPC')) {
-    const colonIndex = desc.indexOf(':')
-    if (colonIndex !== -1) {
-      const prefix = desc.slice(0, colonIndex + 1)
-      const suffix = desc.slice(colonIndex + 1)
-      return (
-        <>
-          <strong>{prefix}</strong>
-          {emphasizeQuotedSegments(suffix)}
-        </>
-      )
-    }
-  }
-
-  return emphasizeQuotedSegments(desc)
-}
+ 
 
 const CtfPage = () => {
   const { ctf } = siteConfig
@@ -80,7 +35,7 @@ const CtfPage = () => {
             <div className="ctf-hero-description-card animate-fade-in-up animate-stagger-2">
               {heroDescriptions.map((desc, index) => (
                 <p key={index} className="subpage-hero-description">
-                  {formatHeroDescription(desc, index)}
+                  {desc}
                 </p>
               ))}
             </div>

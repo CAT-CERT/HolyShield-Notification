@@ -18,7 +18,7 @@ type LocationSectionProps = {
       icon: string
       badge: {
         label: string
-        tone: 'blue' | 'green' | 'purple' | 'magenta' | 'neutral'
+        tone: 'blue' | 'green' | 'midnightblue' | 'yellow-green'
       }
       title: string
       subtitle?: string
