@@ -73,12 +73,11 @@ const CtfPage = () => {
                 <li key={rule}>{rule}</li>
               ))}
             </ul>
-            {ctf.rulesDocUrl && (
+            {(
               <a 
-                href={ctf.rulesDocUrl} 
+                href={ctf.rulesDocUrl || '/rule.png'}
                 className="rules-download-button"
-                target="_blank"
-                rel="noopener noreferrer"
+                download="rule.png"
               >
                 운영규정 다운로드
               </a>

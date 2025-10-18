@@ -33,7 +33,7 @@ export const siteConfig = {
     title: 'HOLYSHIELD 2025',
     description: '',
     eventPeriod: '2025.12.20 ~ 21',
-    venue: 'The Catholic University of Korea',
+    venue: 'CAT-Security',
     bannerImage: '/banner.png',
   },
 
@@ -104,7 +104,7 @@ export const siteConfig = {
     ],
   },
   ctf: {
-    heroTitle: 'HolyShield Contest 2025',
+    heroTitle: 'HolyShield 2025',
     heroDescription: 'HolyShield Contest 2025는 Jeopardy 형식과 CAT-Security에서 기획한 RPC(Role Playing Challenge) 형태의 대회가 진행됩니다.',
     heroDescription2: '참가자들은 일반적인 문제 풀이를 넘어, 실제 기업 환경을 점검하는 \'모의 침투 테스터\'의 역할을 수행합니다.',
     heroDescription3: '기존 CTF에서 볼 수 없었던 CAT-Security만의 시나리오에 도전할 특별한 기회가 될 것입니다.',

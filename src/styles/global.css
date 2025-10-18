@@ -2335,7 +2335,7 @@ ul {
   align-items: center;
   padding: 5rem 0;
   width: 100%;
-  background: linear-gradient(135deg, #e8eeff 0%, #f0f4ff 100%);
+  background: linear-gradient(135deg, var(--bg-base) 0%, #eef3ff 60%, #f0f4ff 100%);
   min-height: calc(100vh - var(--header-height));
 }
 
@@ -2415,6 +2415,8 @@ ul {
   justify-content: center;
   width: 100%;
   padding: clamp(3.5rem, 9vw, 7rem) 0 clamp(4rem, 10vw, 8rem);
+  /* 하단을 countdown 섹션 상단과 동일한 색으로 자연스럽게 이어지도록 */
+  background: linear-gradient(180deg, var(--bg-base) 0%, #eef3ff 100%);
   scroll-margin-top: calc(var(--header-height) + 24px);
 }
 
