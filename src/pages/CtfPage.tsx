@@ -30,6 +30,13 @@ const CtfPage = () => {
             >
               {ctf.registrationCtaLabel}
             </a>
+            <a
+              className="action-button action-secondary"
+              href={'/HolyShield_2025_신청서.docx'}
+              download={'HolyShield_2025_신청서.docx'}
+            >
+              신청서 다운로드
+            </a>
           </div>
           {heroDescriptions.length > 0 && (
             <div className="ctf-hero-description-card animate-fade-in-up animate-stagger-2">
