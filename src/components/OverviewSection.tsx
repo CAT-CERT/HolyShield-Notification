@@ -58,8 +58,8 @@ const OverviewSection = () => {
               <li>정보보안과 관련된 주제를 자유롭게 발표</li>
               <li>Tech와 Career 두 개의 트랙으로 나누어 진행
                 <ul className="ctf-overview-sub-list">
-                  <li><span className="ctf-overview-timeline-label">Tech Track:</span>&nbsp;&nbsp;최신 기술 동향과 연구 결과 공유</li>
-                  <li><span className="ctf-overview-timeline-label">Career Track:</span>&nbsp;&nbsp;진로 설계 및 커리어 개발</li>
+                  <li><span className="ctf-overview-timeline-label">Tech Track:</span>&nbsp;&nbsp;정보보안 관련 기술 동향, 개인 연구 결과와 성과를 공유</li>
+                  <li><span className="ctf-overview-timeline-label">Career Track:</span>&nbsp;&nbsp;누구나 정보보안 학습 경험과 팁을 공유하는 자리</li>
                 </ul>
               </li>
             </ul>
