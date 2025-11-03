@@ -119,7 +119,7 @@ export const siteConfig = {
     participation: [
       '정보보안에 관심있는 고등학생, 대학(원)생으로 구성된 팀 (휴학생 가능)',
       'Jeopardy, RPC 형식 동시 진행',
-      '문제유형: Web, Pwnable, Reversing, Mobile, Penetration Testing, Malware Analysis, Live Fire',
+      '문제유형: Web, Pwnable, Reversing, Crypto, Mobile, Penetration Testing, Malware Analysis, Live Fire',
     ],
     rulesDocUrl: '#',
     overviewRules: [
