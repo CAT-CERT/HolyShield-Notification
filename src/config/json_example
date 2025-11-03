@@ -2,29 +2,16 @@
   {
     "id": "test1",
     "track": "TECH",
-    "topic": "5G 보안 위협과 대응 전략",
-    "name": "TEST1",
-    "title": "CAT-Security",
-    "image": "https://placehold.co/220x280?text=Speaker+A",
-    "time": "09:30",
-    "bio": "저는 CAT-Security에서 5G 통신망 보안 체계를 연구하고 있는 엔지니어 TEST1입니다. 이동통신 코어망과 엣지 장비 보안을 담당하며, 침해사고 대응 절차와 위협 헌팅 자동화를 설계하고 있습니다.",
+    "topic": "Pre-Auth RCE in IPCAM : How I Became Big Brother",
+    "name": ["이재영", "이건우"],
+    "company": ["선린인터넷고등학교", "충주고등학교"],
+    "image": ["https://placehold.co/220x280?text=Speaker+A", "https://placehold.co/220x280?text=Speaker+B"],
+    "time": "10:00",
+    "startTime": "10:00",
+    "endTime": "11:00",
+    "bio": "이재영 : 현재 선린인터넷고등학교 정보보호과에 재학중이며 Binary Exploitation/obfuscation을 주로 공부하고 있습니다.\n이건우 : 현재 충주고등학교에 재학중이며 Linux Kernel/Binary Exploitation을 주로 공부하고 있습니다.",
     "body": [
-      "5G 인프라는 초저지연 서비스와 초연결 환경을 제공하는 만큼, 기존 LTE 대비 훨씬 많은 엔드포인트가 연결됩니다. 이번 세션에서는 실제 현장에서 관측된 위협 지표와 통신사들이 겪고 있는 보안 운영 이슈를 공유합니다.",
-      "또한 최근 이슈가 되고 있는 슬라이스 간 침투 위협과 MEC 환경에서 발생하는 데이터 탈취 시나리오, 그리고 이를 대응하기 위한 네트워크 세그멘테이션 전략과 접근 제어 체계를 소개합니다."
-    ]
-  },
-    {
-    "id": "test1",
-    "track": "TECH",
-    "topic": "5G 보안 위협과 대응 전략",
-    "name": "TEST1",
-    "title": "CAT-Security",
-    "image": "https://placehold.co/220x280?text=Speaker+A",
-    "time": "09:30",
-    "bio": "저는 CAT-Security에서 5G 통신망 보안 체계를 연구하고 있는 엔지니어 TEST1입니다. 이동통신 코어망과 엣지 장비 보안을 담당하며, 침해사고 대응 절차와 위협 헌팅 자동화를 설계하고 있습니다.",
-    "body": [
-      "5G 인프라는 초저지연 서비스와 초연결 환경을 제공하는 만큼, 기존 LTE 대비 훨씬 많은 엔드포인트가 연결됩니다. 이번 세션에서는 실제 현장에서 관측된 위협 지표와 통신사들이 겪고 있는 보안 운영 이슈를 공유합니다.",
-      "또한 최근 이슈가 되고 있는 슬라이스 간 침투 위협과 MEC 환경에서 발생하는 데이터 탈취 시나리오, 그리고 이를 대응하기 위한 네트워크 세그멘테이션 전략과 접근 제어 체계를 소개합니다."
+      "한국에서 널리 쓰이는 가정용 IP 카메라의 ONVIF 처리부 xmlNormalize 함수에서 발생하는 NULL 혼입 기반 힙 오버플로우 취약점을 분석하고, 이를 이용한 인증 전 원격 코드 실행(Pre-Auth RCE) 익스플로잇을 구현·시연하겠습니다"
     ]
   }
 ]

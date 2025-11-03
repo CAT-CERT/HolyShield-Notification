@@ -1987,25 +1987,13 @@ ul {
   gap: 1rem;
 }
 
-.program-session-presenter {
+.program-session-presenters {
   display: flex;
-  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 0.75rem;
-}
-
-.program-session-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  object-fit: cover;
-  background: rgba(36, 72, 240, 0.2);
-  box-shadow: 0 6px 16px rgba(28, 44, 128, 0.28);
-}
-
-.program-session-presenter-text {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+  flex: 1;
+  align-items: center;
 }
 
 .program-session-speaker {
@@ -2013,12 +2001,6 @@ ul {
   font-weight: 600;
   font-size: 0.92rem;
   color: #26419a;
-}
-
-.program-session-role {
-  margin: 0;
-  font-size: 0.8rem;
-  color: rgba(36, 52, 128, 0.75);
 }
 
 .program-session-more {
@@ -2211,7 +2193,7 @@ ul {
   }
 
   .session-detail-title {
-    font-size: clamp(1.6rem, 2.5vw, 2rem);
+    font-size: clamp(1rem, 3vw, 2.4rem);
   }
 
   .hero-event {
@@ -2784,15 +2766,23 @@ ul {
 
 .session-detail-title {
   margin: 0;
-  font-size: clamp(1.9rem, 3vw, 2.4rem);
+  font-size: clamp(1rem, 3vw, 2.4rem);
   color: var(--primary-900);
   letter-spacing: -0.01em;
+}
+
+.session-detail-speakers {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 5rem;
+  margin-bottom: 1rem;
 }
 
 .session-detail-speaker {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 1rem;
 }
 
 .session-detail-avatar {
@@ -2805,9 +2795,9 @@ ul {
 
 .session-detail-speaker-text {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.6rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
   font-size: 1.05rem;
   color: var(--text-body);
 }
@@ -2849,7 +2839,7 @@ ul {
 .session-detail-divider {
   border: none;
   border-top: 1px solid rgba(43, 72, 190, 0.18);
-  margin: 1.6rem 0 1.4rem;
+  margin: 0.5rem
 }
 
 .session-detail-body {

@@ -18,8 +18,9 @@ type NormalizedAgendaItem = {
   title: string
   speaker?: string
   track: string
-  speakerTitle?: string
+  speakerCompany?: string
   speakerImage?: string
+  speakers: { name?: string; company?: string; image?: string }[]
   slug: string
   sessionTime?: string
   speakerRoom?: string
@@ -59,6 +60,9 @@ const createSlug = (value: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
 
+const toArray = <T,>(value: T | T[] | null | undefined): T[] =>
+  value == null ? [] : Array.isArray(value) ? value : [value]
+
 const ConferencePage = () => {
   const { conference } = siteConfig
   const [mobileTrackFilter, setMobileTrackFilter] = useState<'TECH' | 'CAREER'>('TECH')
@@ -86,27 +90,80 @@ const ConferencePage = () => {
         speaker.time === item.time &&
         (speaker.track === item.track || !item.track)
     )
-    const speakerByName = item.speaker ? conference.speakers.find((speaker) => speaker.name === item.speaker) : undefined
+    const speakerByName = item.speaker
+      ? conference.speakers.find((speaker) => toArray(speaker.name).includes(item.speaker as string))
+      : undefined
     const speakerInfo = speakerByTime ?? speakerByName
 
     const resolvedTrack = item.track ?? speakerInfo?.track ?? '공통'
     const hasExplicitContent = Boolean(item.title || item.speaker)
     const placeholder = item.placeholder ?? (!hasExplicitContent && !speakerInfo)
     const title = item.title ?? speakerInfo?.topic ?? '미정'
-    const speakerName = item.speaker ?? speakerInfo?.name
+
+    const rawSpeakerName = (item.speaker ?? speakerInfo?.name) as string | string[] | undefined
+    const rawSpeakerImage = speakerInfo?.image as string | string[] | undefined
+    const rawSpeakerCompany = speakerInfo?.company as string | string[] | undefined
+
+    const speakerNames = toArray(rawSpeakerName)
+    const speakerImages = toArray(rawSpeakerImage)
+    const speakerCompanies = toArray(rawSpeakerCompany)
+
+    const speakers = speakerNames.reduce<{ name: string; company?: string; image?: string }[]>((list, name, idx) => {
+      const normalizedName = typeof name === 'string' ? name.trim() : ''
+      if (!normalizedName) {
+        return list
+      }
+
+      const imageValue = speakerImages[idx] ?? speakerImages[0]
+      const companyValue = speakerCompanies[idx] ?? speakerCompanies[0]
+
+      list.push({
+        name: normalizedName,
+        company: typeof companyValue === 'string' ? companyValue : undefined,
+        image: typeof imageValue === 'string' ? imageValue : undefined,
+      })
+
+      return list
+    }, [])
+
+    const primarySpeakerName =
+      speakers[0]?.name ??
+      (typeof rawSpeakerName === 'string'
+        ? rawSpeakerName
+        : Array.isArray(rawSpeakerName)
+        ? rawSpeakerName[0]
+        : undefined)
+
+    const primarySpeakerCompany =
+      speakers[0]?.company ??
+      (typeof rawSpeakerCompany === 'string'
+        ? rawSpeakerCompany
+        : Array.isArray(rawSpeakerCompany)
+        ? rawSpeakerCompany[0]
+        : undefined)
+
+    const primarySpeakerImage =
+      speakers[0]?.image ??
+      (typeof rawSpeakerImage === 'string'
+        ? rawSpeakerImage
+        : Array.isArray(rawSpeakerImage)
+        ? rawSpeakerImage[0]
+        : undefined)
+
     const slugSource =
       speakerInfo?.id ??
       item.sessionId ??
-      `${item.time}-${resolvedTrack}-${speakerName ?? index}`
+      `${item.time}-${resolvedTrack}-${primarySpeakerName ?? index}`
 
     return {
       sessionId: item.sessionId,
       time: item.time,
       title,
-      speaker: speakerName,
+      speaker: primarySpeakerName,
       track: resolvedTrack,
-      speakerTitle: speakerInfo?.title,
-      speakerImage: speakerInfo?.image,
+      speakerCompany: primarySpeakerCompany,
+      speakerImage: primarySpeakerImage,
+      speakers,
       slug: createSlug(slugSource),
       sessionTime: speakerInfo?.time ?? item.time,
       speakerBio: speakerInfo?.bio,
@@ -148,7 +205,7 @@ const ConferencePage = () => {
   const scheduleGridStyle = {
     '--schedule-track-count': trackOrder.length || 1,
     gridTemplateRows: `auto ${scheduleRows
-      .map((row) => (isLunchRowFor(row) ? '90px' : 'var(--schedule-row-height, 180px)'))
+      .map((row) => (isLunchRowFor(row) ? '90px' : 'minmax(var(--schedule-row-height, 180px), auto)'))
       .join(' ')}`,
   } as CSSProperties
 
@@ -259,6 +316,20 @@ const ConferencePage = () => {
                           )
                         }
 
+                        const presenters =
+                          session.speakers && session.speakers.length > 0
+                            ? session.speakers
+                            : session.speaker
+                            ? [
+                                {
+                                  name: session.speaker,
+                                  company: session.speakerCompany,
+                                  image: session.speakerImage,
+                                },
+                              ]
+                            : []
+                        const visiblePresenters = presenters.filter((presenter) => presenter?.name)
+
                         // 실제 세션 표시
                         return (
                           <div className="program-grid-cell" key={`${row.time}-${track}`} style={style}>
@@ -269,21 +340,20 @@ const ConferencePage = () => {
                               <h3>{session.title}</h3>
                             </div>
                             <div className="program-session-footer">
-                              <div className="program-session-presenter">
-                                {session.speakerImage ? (
-                                  <img
-                                    className="program-session-avatar"
-                                    src={session.speakerImage}
-                                    alt={`${session.speaker} 사진`}
-                                  />
-                                ) : null}
-                                <div className="program-session-presenter-text">
-                                  <p className="program-session-speaker">{session.speaker}</p>
-                                  {session.speakerTitle ? (
-                                    <p className="program-session-role">{session.speakerTitle}</p>
-                                  ) : null}
+                              {visiblePresenters.length > 0 ? (
+                                <div className="program-session-presenters">
+                                  {visiblePresenters.map((presenter, presenterIndex) => (
+                                    <p
+                                      className="program-session-speaker"
+                                      key={`${session.slug}-presenter-${presenterIndex}`}
+                                    >
+                                      {presenter.name}
+                                    </p>
+                                  ))}
                                 </div>
-                              </div>
+                              ) : (
+                                <div className="program-session-presenters" />
+                              )}
                               <Link className="program-session-more" to={`/conference/sessions/${session.slug}`}>
                                 더 보기
                               </Link>
@@ -319,40 +389,55 @@ const ConferencePage = () => {
               ) : (
                 normalizedAgenda
                   .filter((item) => !item.placeholder && item.track === mobileTrackFilter)
-                  .map((item) => (
-                  <div
-                    className="program-mobile-card"
-                    key={`${item.time}-${item.title}`}
-                    style={getTrackStyle(item.track)}
-                  >
-                    <div className="program-card-header">
-                      <span className="program-track-badge">{item.track}</span>
-                    </div>
-                    <div className="program-session-body">
-                      <h3>{item.title}</h3>
-                    </div>
-                    <div className="program-session-footer">
-                      <div className="program-session-presenter">
-                        {item.speakerImage ? (
-                          <img
-                            className="program-session-avatar"
-                            src={item.speakerImage}
-                            alt={`${item.speaker} 사진`}
-                          />
-                        ) : null}
-                        <div className="program-session-presenter-text">
-                          <p className="program-session-speaker">{item.speaker}</p>
-                          {item.speakerTitle ? (
-                            <p className="program-session-role">{item.speakerTitle}</p>
-                          ) : null}
+                  .map((item) => {
+                    const presenters =
+                      item.speakers && item.speakers.length > 0
+                        ? item.speakers
+                        : item.speaker
+                        ? [
+                            {
+                              name: item.speaker,
+                              company: item.speakerCompany,
+                              image: item.speakerImage,
+                            },
+                          ]
+                        : []
+                    const visiblePresenters = presenters.filter((presenter) => presenter?.name)
+
+                    return (
+                      <div
+                        className="program-mobile-card"
+                        key={`${item.time}-${item.title}`}
+                        style={getTrackStyle(item.track)}
+                      >
+                        <div className="program-card-header">
+                          <span className="program-track-badge">{item.track}</span>
+                        </div>
+                        <div className="program-session-body">
+                          <h3>{item.title}</h3>
+                        </div>
+                        <div className="program-session-footer">
+                          {visiblePresenters.length > 0 ? (
+                            <div className="program-session-presenters">
+                              {visiblePresenters.map((presenter, presenterIndex) => (
+                                <p
+                                  className="program-session-speaker"
+                                  key={`${item.slug}-mobile-presenter-${presenterIndex}`}
+                                >
+                                  {presenter.name}
+                                </p>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="program-session-presenters" />
+                          )}
+                          <Link className="program-session-more" to={`/conference/sessions/${item.slug}`}>
+                            더 보기
+                          </Link>
                         </div>
                       </div>
-                      <Link className="program-session-more" to={`/conference/sessions/${item.slug}`}>
-                        더 보기
-                      </Link>
-                    </div>
-                  </div>
-                  ))
+                    )
+                  })
               )}
             </div>
           </div>

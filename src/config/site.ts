@@ -2,9 +2,9 @@ import speakersData from './speakers.json'
 
 type Speaker = {
   id?: string
-  name: string
-  title: string
-  image: string
+  name: string | string[]
+  company?: string | string[]
+  image?: string | string[]
   topic?: string
   time?: string
   track?: string
