@@ -1,5 +1,5 @@
 
-import { Fragment, type CSSProperties } from 'react'
+import { Fragment, type CSSProperties, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { siteConfig } from '@/config/site'
 
@@ -61,6 +61,7 @@ const createSlug = (value: string) =>
 
 const ConferencePage = () => {
   const { conference } = siteConfig
+  const [mobileTrackFilter, setMobileTrackFilter] = useState<'TECH' | 'CAREER'>('TECH')
 
   const sessionItems = (() => {
     const agenda = conference.agenda
@@ -297,9 +298,28 @@ const ConferencePage = () => {
             </div>
 
             <div className="conference-program-mobile">
+              <div className="program-mobile-tabs">
+                <button
+                  className={`program-mobile-tab ${mobileTrackFilter === 'TECH' ? 'program-mobile-tab-active' : ''}`}
+                  onClick={() => setMobileTrackFilter('TECH')}
+                >
+                  TECH
+                </button>
+                <button
+                  className={`program-mobile-tab ${mobileTrackFilter === 'CAREER' ? 'program-mobile-tab-active' : ''}`}
+                  onClick={() => setMobileTrackFilter('CAREER')}
+                >
+                  CAREER
+                </button>
+              </div>
               {normalizedAgenda
-                .filter((item) => !item.placeholder)
-                .map((item) => (
+                .filter((item) => !item.placeholder && item.track === mobileTrackFilter)
+                .length === 0 ? (
+                <div className="program-mobile-empty">준비중입니다</div>
+              ) : (
+                normalizedAgenda
+                  .filter((item) => !item.placeholder && item.track === mobileTrackFilter)
+                  .map((item) => (
                   <div
                     className="program-mobile-card"
                     key={`${item.time}-${item.title}`}
@@ -332,7 +352,8 @@ const ConferencePage = () => {
                       </Link>
                     </div>
                   </div>
-                ))}
+                  ))
+              )}
             </div>
           </div>
         </div>

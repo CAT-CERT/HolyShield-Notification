@@ -147,10 +147,6 @@ export const siteConfig = {
 
     agenda: {
       day1: [
-        { time: '09:00', track: 'TECH' },
-        { time: '09:00', track: 'CAREER' },
-        { time: '09:30', track: 'TECH' },
-        { time: '09:30', track: 'CAREER' },
         { time: '10:00', track: 'TECH' },
         { time: '10:00', track: 'CAREER' },
         { time: '10:30', track: 'TECH' },
@@ -161,9 +157,7 @@ export const siteConfig = {
         { time: '11:30', track: 'CAREER' },
         { time: '12:00', track: 'TECH' },
         { time: '12:00', track: 'CAREER' },
-        { time: '12:30', track: 'TECH' },
-        { time: '12:30', track: 'CAREER' },
-        { time: '13:00', title: '점심시간' },
+        { time: '12:30', title: '점심시간' },
         { time: '14:00', track: 'TECH' },
         { time: '14:00', track: 'CAREER' },
         { time: '14:30', track: 'TECH' },
@@ -174,8 +168,6 @@ export const siteConfig = {
         { time: '15:30', track: 'CAREER' },
         { time: '16:00', track: 'TECH' },
         { time: '16:00', track: 'CAREER' },
-        { time: '16:30', track: 'TECH' },
-        { time: '16:30', track: 'CAREER' },
       ],
     },
     registrationButtons: [

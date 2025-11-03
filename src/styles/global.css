@@ -3026,3 +3026,52 @@ ul {
     height: clamp(220px, 35vw, 300px);
   }
 }
+
+.program-mobile-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.program-mobile-tab {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: 2px solid rgba(36, 72, 240, 0.2);
+  background: transparent;
+  color: var(--primary-600);
+  font-weight: 700;
+  font-family: 'Chakra Petch', sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.program-mobile-tab:hover {
+  border-color: var(--primary-500);
+  background: rgba(36, 72, 240, 0.06);
+}
+
+.program-mobile-tab-active {
+  background: var(--primary-600);
+  color: var(--bg-panel);
+  border-color: var(--primary-600);
+}
+
+.program-mobile-empty {
+  padding: 2rem 1.5rem;
+  text-align: center;
+  border-radius: 10px;
+  background: rgba(36, 72, 240, 0.08);
+  border: 1px solid rgba(36, 72, 240, 0.2);
+  color: var(--primary-600);
+  font-weight: 600;
+}
+
+@media (max-width: 860px) {
+  .program-mobile-tabs {
+    display: flex;
+  }
+}
