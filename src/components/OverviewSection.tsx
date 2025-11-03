@@ -37,7 +37,7 @@ const OverviewSection = () => {
               <li>정보보안에 관심있는 고등, 대학(원)생으로 구성된 팀 (휴학생 가능)</li>
               <li>Jeopardy 형식과 CAT-Security가 자체 기획한 RPC 형식 동시 진행</li>
               <li>
-              <span className="ctf-overview-timeline-label">출제 분야</span><br/>Web, Pwnable, Reversing, Mobile, Penetration Testing, Malware Analysis, Live Fire
+              <span className="ctf-overview-timeline-label">출제 분야</span><br/>Web, Pwnable, Reversing, Mobile, Crypto, Penetration Testing, Malware Analysis, Live Fire
               </li>
             </ul>
           </article>
