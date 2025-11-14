@@ -95,7 +95,7 @@ const SessionDetailPage = () => {
         {bodyParagraphs.length > 0 ? (
           <div className="session-detail-body">
             {bodyParagraphs.map((paragraph: string, index: number) => (
-              <p key={`paragraph-${index}`}>{paragraph}</p>
+              <p key={`paragraph-${index}`} style={{ whiteSpace: 'pre-line' }}>{paragraph}</p>
             ))}
           </div>
         ) : null}
