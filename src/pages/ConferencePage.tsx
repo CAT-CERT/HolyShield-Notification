@@ -280,7 +280,7 @@ const ConferencePage = () => {
                 return (
                   <Fragment key={`row-${row.time}`}>
                     <div className={`program-grid-time-cell ${isLunchRow ? 'program-grid-time-cell-lunch' : ''}`}>
-                      <span>{row.time}</span>
+                      {!isLunchRow ? <span>{row.time}</span> : null}
                     </div>
                     {isCommonSession ? (
                       // 공통 세션이면 셀 병합
