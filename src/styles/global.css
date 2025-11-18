@@ -1972,6 +1972,14 @@ ul {
   font-weight: 700;
 }
 
+.program-session-time {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: #646c97;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
 .program-session-body h3 {
   margin: 0;
   font-size: 1.04rem;
@@ -1998,9 +2006,16 @@ ul {
 
 .program-session-speaker {
   margin: 0;
-  font-weight: 600;
-  font-size: 0.92rem;
+  font-size: 0.85rem;
   color: #26419a;
+}
+
+.program-session-speaker-name {
+  font-weight: 600;
+}
+
+.program-session-speaker-company {
+  font-weight: 400;
 }
 
 .program-session-more {

@@ -25,7 +25,9 @@ const SessionDetailPage = () => {
     return <Navigate to="/conference" replace />
   }
 
-  const timeRange = session.time
+  const startTime = (session as any).startTime ?? session.time
+  const endTime = (session as any).endTime
+  const timeRange = endTime ? `${startTime} ~ ${endTime}` : startTime
   const bodyParagraphs = session.body ?? []
   const presenterNames = toArray(session.name)
   const presenterImages = toArray(session.image)
@@ -46,9 +48,11 @@ const SessionDetailPage = () => {
     const imageValue = presenterImages[idx] ?? presenterImages[0]
     const companyValue = presenterCompanies[idx] ?? presenterCompanies[0]
 
+    const imagePath = typeof imageValue === 'string' ? imageValue : undefined
+
     list.push({
       name: normalizedName,
-      image: typeof imageValue === 'string' ? imageValue : undefined,
+      image: imagePath,
       company: typeof companyValue === 'string' ? companyValue : undefined,
     })
 
@@ -74,12 +78,16 @@ const SessionDetailPage = () => {
             {presenters.map((presenter, index) => (
               <div className="session-detail-speaker" key={`${sessionId}-presenter-${index}`}>
                 {presenter.image ? (
-                  <img className="session-detail-avatar" src={presenter.image} alt={`${presenter.name} 사진`} />
+                  <img 
+                    className="session-detail-avatar" 
+                    src={presenter.image} 
+                    alt={`${presenter.name} 사진`}
+                  />
                 ) : null}
                 <div className="session-detail-speaker-text">
                   <span className="session-detail-speaker-name">{presenter.name}</span>
                   {presenter.company ? (
-                    <span className="session-detail-speaker-role">{presenter.company}</span>
+                    <span className="session-detail-speaker-role"> {presenter.company}</span>
                   ) : null}
                 </div>
               </div>
