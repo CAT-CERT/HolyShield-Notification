@@ -66,9 +66,9 @@
 		"name": "이창헌",
 		"company": "고려대학교 석박통합과정",
 		"image": "/profile/lee-changheon.jpeg",
-		"time": "14:30",
-		"startTime": "14:30",
-		"endTime": "15:30",
+		"time": "15:00",
+		"startTime": "15:00",
+		"endTime": "16:00",
 		"bio": "JS engine 및 Linux kernel 등 주요 소프트웨어를 대상으로 하여 자동화된 Bug hunting을 취미 삼아 간간히 하는 고려대학교 석박통합과정 이창헌입니다.",
 		"body": [
 			"Linux kernel과 JS engine은 크고, 복잡하고, 어렵다고 느껴지기 쉽습니다.\n0-day hunting은 익숙하지 않으며, 어디서부터 뭘 해야할지 모를 때가 많습니다.\n\n이와 같은 무거운 생각들과 막연한 난해함을 대신해 가벼운 취미로써 크고 복잡한 소프트웨어를 대상으로 어디서부터 0-day hunting을 시작하면 좋을지 다룹니다."
