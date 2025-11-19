@@ -103,5 +103,20 @@
 		"body": [
 			"기존에 알려진 1-day 취약점을 바탕으로, 이를 어떻게 분석·응용해 새로운 0-day 취약점으로 확장했는지에 대한 스토리를 담고 있습니다."
 		]
+	},
+	{
+		"id": "8",
+		"track": "TECH",
+		"topic": "My IoT 0-Day Hunting Log",
+		"name": "김도환",
+		"company": "라온시큐어 핵심연구팀",
+		"image": "/profile/neko_hat.jpeg",
+		"time": "10:30",
+		"startTime": "10:30",
+		"endTime": "11:30",
+		"bio": "I am currently working at RaonSecure Co., Ltd. as a PM in the Core Research Team, where I do security research and penetration testing projects focused on web and application vulnerabilities. My work spans web-based penetration testing, vulnerability diagnosis, and reverse engineering — driving practical security assessments and mitigation strategies that enhance system resilience.\nPreviously, I served as a Senior Researcher on the Proactive Response Team at Stealien, conducting in-depth vulnerability research on embedded and IoT systems. There, I focused on exploit development, PoC implementation, and technical reporting to support vulnerability remediation and disclosure. Earlier, as a Researcher at Four Chains, I contributed to the development of the LIS System, Modulus platform, and CBDC confidentiality testing project, gaining hands-on experience in blockchain and financial security domains.\nThrough these experiences, I have built multidisciplinary expertise across web, embedded, and blockchain security, specializing in threat modeling, reverse engineering, vulnerability verification, and mitigation. My goal is to bridge advanced technical research with real-world impact by identifying and addressing security weaknesses in critical infrastructure and digital services.\nI have also contributed to numerous public vulnerability disclosures, including KVE-2025-0160, CVE-2024-4464, CVE-2024-50395, and several CVE-2024-53xxx series vulnerabilities. My achievements include placing 5th in the 2024 BISC CTF (Excellence Award) and completing the Best of the Best (BOB) 12th program in the Vulnerability Analysis Track, further validating my capabilities in offensive security and technical leadership.",
+		"body": [
+			"I will introduce several 0-day vulnerabilities that I previously discovered, including their assigned CVE and KVE identifiers, and provide an in-depth review of their root causes."
+		]
 	}
 ]
