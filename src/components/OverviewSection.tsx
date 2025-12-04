@@ -51,7 +51,7 @@ const OverviewSection = () => {
               </div>
               <div className="ctf-overview-registration">
                 <strong>참석자 신청</strong>
-                <span className="ctf-overview-timeline-detail">~ 2025. 12. 05(금) 까지</span>
+                <span className="ctf-overview-timeline-detail">~ 2025. 12. 12(금) 까지</span>
               </div>
             </div>
             <ul className="ctf-overview-description-list">
