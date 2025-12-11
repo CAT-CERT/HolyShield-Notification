@@ -1897,7 +1897,7 @@ ul {
 }
 
 .program-grid-cell-empty::after {
-  content: '준비중';
+  content: '-';
   position: absolute;
   top: 50%;
   left: 50%;
