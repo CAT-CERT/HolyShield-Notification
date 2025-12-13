@@ -1,5 +1,5 @@
 
-import { Fragment, type CSSProperties, useState } from 'react'
+import { Fragment, type CSSProperties, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { siteConfig } from '@/config/site'
 
@@ -18,6 +18,7 @@ type NormalizedAgendaItem = {
   title: string
   speaker?: string
   track: string
+  mergeAcrossTracks?: boolean
   speakerCompany?: string
   speakerImage?: string
   speakers: { name?: string; company?: string; image?: string }[]
@@ -71,11 +72,14 @@ const timeToMinutes = (timeStr: string): number => {
   return hours * 60 + minutes
 }
 
+const TRACK_ORDER = ['TECH', 'CAREER'] as const
+type TrackKey = (typeof TRACK_ORDER)[number]
+
 const ConferencePage = () => {
   const { conference } = siteConfig
-  const [mobileTrackFilter, setMobileTrackFilter] = useState<'TECH' | 'CAREER'>('TECH')
+  const [mobileTrackFilter, setMobileTrackFilter] = useState<TrackKey>('TECH')
 
-  const sessionItems = (() => {
+  const sessionItems = useMemo(() => {
     const agenda = conference.agenda
 
     if (Array.isArray(agenda)) {
@@ -89,150 +93,184 @@ const ConferencePage = () => {
     }
 
     return [] as AgendaItem[]
-  })()
+  }, [conference.agenda])
 
-  const normalizedAgenda: NormalizedAgendaItem[] = sessionItems.map((item, index) => {
-    // time 필드로 speaker 매칭 (우선순위 1: time + track, 2: time만)
-    const speakerByTime = conference.speakers.find(
-      (speaker) =>
-        speaker.time === item.time &&
-        (speaker.track === item.track || !item.track)
-    )
-    const speakerByName = item.speaker
-      ? conference.speakers.find((speaker) => toArray(speaker.name).includes(item.speaker as string))
-      : undefined
-    const speakerInfo = speakerByTime ?? speakerByName
+  const normalizedAgenda: NormalizedAgendaItem[] = useMemo(() => {
+    const speakers = conference.speakers
 
-    const resolvedTrack = item.track ?? speakerInfo?.track ?? '공통'
-    const hasExplicitContent = Boolean(item.title || item.speaker)
-    const placeholder = item.placeholder ?? (!hasExplicitContent && !speakerInfo)
-    const title = item.title ?? speakerInfo?.topic ?? '미정'
+    return sessionItems.map((item, index) => {
+      // time 필드로 speaker 매칭 (우선순위 1: time + track, 2: time만)
+      const speakerByTime = speakers.find(
+        (speaker) =>
+          speaker.time === item.time && (speaker.track === item.track || !item.track),
+      )
+      const speakerByName = item.speaker
+        ? speakers.find((speaker) => toArray(speaker.name).includes(item.speaker as string))
+        : undefined
+      const speakerInfo = speakerByTime ?? speakerByName
 
-    const rawSpeakerName = (item.speaker ?? speakerInfo?.name) as string | string[] | undefined
-    const rawSpeakerImage = speakerInfo?.image as string | string[] | undefined
-    const rawSpeakerCompany = speakerInfo?.company as string | string[] | undefined
+      const mergeAcrossTracks = speakerInfo?.id === '8'
+      const resolvedTrack = item.track ?? speakerInfo?.track ?? '공통'
+      const hasExplicitContent = Boolean(item.title || item.speaker)
+      const placeholder = item.placeholder ?? (!hasExplicitContent && !speakerInfo)
+      const title = item.title ?? speakerInfo?.topic ?? '미정'
 
-    const speakerNames = toArray(rawSpeakerName)
-    const speakerImages = toArray(rawSpeakerImage)
-    const speakerCompanies = toArray(rawSpeakerCompany)
+      const rawSpeakerName = (item.speaker ?? speakerInfo?.name) as
+        | string
+        | string[]
+        | undefined
+      const rawSpeakerImage = speakerInfo?.image as string | string[] | undefined
+      const rawSpeakerCompany = speakerInfo?.company as string | string[] | undefined
 
-    const speakers = speakerNames.reduce<{ name: string; company?: string; image?: string }[]>((list, name, idx) => {
-      const normalizedName = typeof name === 'string' ? name.trim() : ''
-      if (!normalizedName) {
+      const speakerNames = toArray(rawSpeakerName)
+      const speakerImages = toArray(rawSpeakerImage)
+      const speakerCompanies = toArray(rawSpeakerCompany)
+
+      const speakersList = speakerNames.reduce<
+        { name: string; company?: string; image?: string }[]
+      >((list, name, idx) => {
+        const normalizedName = typeof name === 'string' ? name.trim() : ''
+        if (!normalizedName) {
+          return list
+        }
+
+        const imageValue = speakerImages[idx] ?? speakerImages[0]
+        const companyValue = speakerCompanies[idx] ?? speakerCompanies[0]
+
+        list.push({
+          name: normalizedName,
+          company: typeof companyValue === 'string' ? companyValue : undefined,
+          image: typeof imageValue === 'string' ? imageValue : undefined,
+        })
+
         return list
+      }, [])
+
+      const primarySpeakerName =
+        speakersList[0]?.name ??
+        (typeof rawSpeakerName === 'string'
+          ? rawSpeakerName
+          : Array.isArray(rawSpeakerName)
+            ? rawSpeakerName[0]
+            : undefined)
+
+      const primarySpeakerCompany =
+        speakersList[0]?.company ??
+        (typeof rawSpeakerCompany === 'string'
+          ? rawSpeakerCompany
+          : Array.isArray(rawSpeakerCompany)
+            ? rawSpeakerCompany[0]
+            : undefined)
+
+      const primarySpeakerImage =
+        speakersList[0]?.image ??
+        (typeof rawSpeakerImage === 'string'
+          ? rawSpeakerImage
+          : Array.isArray(rawSpeakerImage)
+            ? rawSpeakerImage[0]
+            : undefined)
+
+      const slugSource =
+        speakerInfo?.id ??
+        item.sessionId ??
+        `${item.time}-${resolvedTrack}-${primarySpeakerName ?? index}`
+
+      const startTime = (speakerInfo as any)?.startTime ?? item.time
+      const endTime = (speakerInfo as any)?.endTime
+      const durationMinutes = startTime && endTime ? timeToMinutes(endTime) - timeToMinutes(startTime) : 30 // 기본 30분
+
+      return {
+        sessionId: item.sessionId,
+        time: item.time,
+        title,
+        speaker: primarySpeakerName,
+        track: resolvedTrack,
+        mergeAcrossTracks,
+        speakerCompany: primarySpeakerCompany,
+        speakerImage: primarySpeakerImage,
+        speakers: speakersList,
+        slug: createSlug(slugSource),
+        sessionTime: speakerInfo?.time ?? item.time,
+        speakerBio: speakerInfo?.bio,
+        speakerBody: speakerInfo?.body,
+        placeholder,
+        startTime,
+        endTime,
+        durationMinutes,
+      }
+    })
+  }, [conference.speakers, sessionItems])
+
+  type ScheduleRow = { time: string; sessions: Record<string, NormalizedAgendaItem> }
+
+  const scheduleRows: ScheduleRow[] = useMemo(() => {
+    const rowByTime = new Map<string, ScheduleRow>()
+    const rows: ScheduleRow[] = []
+
+    for (const item of normalizedAgenda) {
+      const existing = rowByTime.get(item.time)
+      if (existing) {
+        existing.sessions[item.track] = item
+        continue
       }
 
-      const imageValue = speakerImages[idx] ?? speakerImages[0]
-      const companyValue = speakerCompanies[idx] ?? speakerCompanies[0]
-
-      list.push({
-        name: normalizedName,
-        company: typeof companyValue === 'string' ? companyValue : undefined,
-        image: typeof imageValue === 'string' ? imageValue : undefined,
-      })
-
-      return list
-    }, [])
-
-    const primarySpeakerName =
-      speakers[0]?.name ??
-      (typeof rawSpeakerName === 'string'
-        ? rawSpeakerName
-        : Array.isArray(rawSpeakerName)
-        ? rawSpeakerName[0]
-        : undefined)
-
-    const primarySpeakerCompany =
-      speakers[0]?.company ??
-      (typeof rawSpeakerCompany === 'string'
-        ? rawSpeakerCompany
-        : Array.isArray(rawSpeakerCompany)
-        ? rawSpeakerCompany[0]
-        : undefined)
-
-    const primarySpeakerImage =
-      speakers[0]?.image ??
-      (typeof rawSpeakerImage === 'string'
-        ? rawSpeakerImage
-        : Array.isArray(rawSpeakerImage)
-        ? rawSpeakerImage[0]
-        : undefined)
-
-    const slugSource =
-      speakerInfo?.id ??
-      item.sessionId ??
-      `${item.time}-${resolvedTrack}-${primarySpeakerName ?? index}`
-
-    const startTime = (speakerInfo as any)?.startTime ?? item.time
-    const endTime = (speakerInfo as any)?.endTime
-    const durationMinutes = startTime && endTime 
-      ? timeToMinutes(endTime) - timeToMinutes(startTime)
-      : 30 // 기본 30분
-
-    return {
-      sessionId: item.sessionId,
-      time: item.time,
-      title,
-      speaker: primarySpeakerName,
-      track: resolvedTrack,
-      speakerCompany: primarySpeakerCompany,
-      speakerImage: primarySpeakerImage,
-      speakers,
-      slug: createSlug(slugSource),
-      sessionTime: speakerInfo?.time ?? item.time,
-      speakerBio: speakerInfo?.bio,
-      speakerBody: speakerInfo?.body,
-      placeholder,
-      startTime,
-      endTime,
-      durationMinutes,
-    }
-  })
-
-  // TECH와 CAREER 열을 항상 표시
-  const trackOrder = ['TECH', 'CAREER']
-
-  const scheduleRows = normalizedAgenda.reduce<
-    { time: string; sessions: Record<string, NormalizedAgendaItem> }[]
-  >((rows, item) => {
-    const existingRow = rows.find((row) => row.time === item.time)
-
-    if (existingRow) {
-      existingRow.sessions[item.track] = item
-      return rows
+      const newRow: ScheduleRow = { time: item.time, sessions: { [item.track]: item } }
+      rowByTime.set(item.time, newRow)
+      rows.push(newRow)
     }
 
-    return [
-      ...rows,
-      {
-        time: item.time,
-        sessions: { [item.track]: item },
-      },
-    ]
-  }, [])
+    return rows
+  }, [normalizedAgenda])
 
-  // 1시간 발표가 다음 행까지 차지하는지 확인하는 헬퍼 함수
-  const isSpannedByPreviousRow = (currentTime: string, track: string): boolean => {
-    const previousTime = scheduleRows
-      .map((r) => r.time)
-      .filter((t) => {
-        const [hours, minutes] = t.split(':').map(Number)
-        const [currentHours, currentMinutes] = currentTime.split(':').map(Number)
-        const prevTotal = hours * 60 + minutes
-        const currentTotal = currentHours * 60 + currentMinutes
-        return currentTotal - prevTotal === 30
-      })
-      .sort()
-      .pop()
+  const spannedCells = useMemo(() => {
+    const rowByTime = new Map<string, ScheduleRow>()
+    const minutesToTime = new Map<number, string>()
 
-    if (!previousTime) return false
+    for (const row of scheduleRows) {
+      rowByTime.set(row.time, row)
+      minutesToTime.set(timeToMinutes(row.time), row.time)
+    }
 
-    const previousRow = scheduleRows.find((r) => r.time === previousTime)
-    if (!previousRow) return false
+    const spanSet = new Set<string>()
+    const cellKey = (time: string, track: TrackKey) => `${time}__${track}`
+    const fullWidthSpanTimes = new Set<string>()
 
-    const previousSession = previousRow.sessions[track]
-    return previousSession?.durationMinutes === 60
-  }
+    for (const row of scheduleRows) {
+      const currentMinutes = timeToMinutes(row.time)
+      const previousTime = minutesToTime.get(currentMinutes - 30)
+      if (!previousTime) {
+        continue
+      }
+
+      const previousRow = rowByTime.get(previousTime)
+      if (!previousRow) {
+        continue
+      }
+
+      for (const track of TRACK_ORDER) {
+        const previousSession = previousRow.sessions[track]
+        if (previousSession?.durationMinutes === 60) {
+          spanSet.add(cellKey(row.time, track))
+        }
+      }
+    }
+
+    for (const row of scheduleRows) {
+      const fullWidthSession = Object.values(row.sessions).find(
+        (session) => session && (session.track === '공통' || session.mergeAcrossTracks),
+      )
+      if (!fullWidthSession || fullWidthSession.durationMinutes !== 60) {
+        continue
+      }
+
+      const nextTime = minutesToTime.get(timeToMinutes(row.time) + 30)
+      if (nextTime) {
+        fullWidthSpanTimes.add(nextTime)
+      }
+    }
+
+    return { spanSet, fullWidthSpanTimes, cellKey }
+  }, [scheduleRows])
 
   // 실제 발표자 데이터가 하나라도 있는지 확인
   const hasAnyPresenters = Array.isArray(conference.speakers) && conference.speakers.length > 0
@@ -243,7 +281,7 @@ const ConferencePage = () => {
   }
 
   const scheduleGridStyle = {
-    '--schedule-track-count': trackOrder.length || 1,
+    '--schedule-track-count': TRACK_ORDER.length || 1,
     gridTemplateRows: `auto ${scheduleRows
       .map((row) => (isLunchRowFor(row) ? '90px' : 'minmax(var(--schedule-row-height, 180px), auto)'))
       .join(' ')}`,
@@ -300,21 +338,27 @@ const ConferencePage = () => {
               style={scheduleGridStyle}
             >
               <div className="program-grid-head program-grid-time-head">Time</div>
-              {trackOrder.map((track) => (
+              {TRACK_ORDER.map((track) => (
                 <div className="program-grid-head" key={`track-head-${track}`}>
                   {track}
                 </div>
               ))}
               {scheduleRows.map((row, rowIndex) => {
-                // 첫 번째 세션 가져오기 (공통 세션용)
-                const firstSession = Object.values(row.sessions)[0]
-                const isCommonSession = firstSession && firstSession.track === '공통'
-                const isLunchRow = isCommonSession && /점심|lunch/i.test(firstSession?.title ?? '')
+                const commonSession = row.sessions['공통']
+                const mergedSession = TRACK_ORDER.map((track) => row.sessions[track]).find(
+                  (session) => session?.mergeAcrossTracks,
+                )
+                const fullWidthSession = commonSession ?? mergedSession
+                const isCommonSession = Boolean(commonSession)
+                const isMergedSession = Boolean(mergedSession)
+                const isLunchRow =
+                  isCommonSession && /점심|lunch/i.test(commonSession?.title ?? '')
+                const isSpannedByPreviousFullWidthRow = spannedCells.fullWidthSpanTimes.has(row.time)
 
                 // 모든 트랙이 비어있거나 전부 placeholder인지 확인 (1시간 발표가 차지한 셀 제외)
-                const allTracksEmptyOrPlaceholder = trackOrder.every((track) => {
+                const allTracksEmptyOrPlaceholder = TRACK_ORDER.every((track) => {
                   // 이전 행의 1시간 발표가 이 셀을 차지한 경우는 제외
-                  if (isSpannedByPreviousRow(row.time, track)) {
+                  if (spannedCells.spanSet.has(spannedCells.cellKey(row.time, track))) {
                     return true // 차지된 셀은 빈 것으로 간주
                   }
                   const session = row.sessions[track]
@@ -324,6 +368,19 @@ const ConferencePage = () => {
                 // 행 번호 계산 (헤더 행이 1행이므로 +2)
                 const gridRowStart = rowIndex + 2
 
+                if (isSpannedByPreviousFullWidthRow) {
+                  return (
+                    <Fragment key={`row-${row.time}`}>
+                      <div
+                        className="program-grid-time-cell"
+                        style={{ gridRow: `${gridRowStart} / ${gridRowStart + 1}` }}
+                      >
+                        <span>{row.time}</span>
+                      </div>
+                    </Fragment>
+                  )
+                }
+
                 return (
                   <Fragment key={`row-${row.time}`}>
                     <div 
@@ -332,24 +389,122 @@ const ConferencePage = () => {
                     >
                       {!isLunchRow ? <span>{row.time}</span> : null}
                     </div>
-                    {isCommonSession ? (
-                      // 공통 세션이면 셀 병합
+                    {fullWidthSession ? (
+                      // 공통(또는 병합) 세션이면 셀 병합
                       <div
-                        className={`program-grid-cell program-grid-cell-merged ${isLunchRow ? 'program-grid-cell-lunch' : ''}`}
+                        className={`program-grid-cell program-grid-cell-merged${isMergedSession ? ' program-grid-cell-merged-compact' : ''} ${isLunchRow ? 'program-grid-cell-lunch' : ''}`}
                         style={{ 
-                          gridColumn: `span ${trackOrder.length}`,
-                          gridRow: `${gridRowStart} / ${gridRowStart + 1}`
+                          gridColumn: `span ${TRACK_ORDER.length}`,
+                          gridRow:
+                            fullWidthSession.durationMinutes === 60
+                              ? `${gridRowStart} / ${gridRowStart + 2}`
+                              : `${gridRowStart} / ${gridRowStart + 1}`,
+                          ...(isMergedSession
+                            ? { display: 'grid', gridTemplateRows: 'auto 1fr auto' }
+                            : null),
                         }}
                       >
-                        <div className="program-session-body">
-                          <h3 style={{ textAlign: 'center', fontSize: '1.2rem' }}>{isLunchRow ? 'Lunch' : firstSession.title}</h3>
-                        </div>
+                        {(() => {
+                          const renderedSession = fullWidthSession
+                          const presenters =
+                            renderedSession.speakers && renderedSession.speakers.length > 0
+                              ? renderedSession.speakers
+                              : renderedSession.speaker
+                                ? [
+                                    {
+                                      name: renderedSession.speaker,
+                                      company: renderedSession.speakerCompany,
+                                      image: renderedSession.speakerImage,
+                                    },
+                                  ]
+                                : []
+                          const visiblePresenters = presenters.filter((presenter) => presenter?.name)
+
+                          const sessionStartTime = renderedSession.startTime ?? renderedSession.time
+                          const sessionEndTime = renderedSession.endTime
+                          const sessionTimeRange = sessionEndTime
+                            ? `${sessionStartTime} ~ ${sessionEndTime}`
+                            : sessionStartTime
+
+                          const trackTheme =
+                            trackThemes[renderedSession.track] ?? trackThemes.DEFAULT
+                          const badgeStyle = { background: trackTheme.accent }
+
+                          return (
+                            <>
+                              {!isLunchRow ? (
+                                <div className="program-card-header">
+                                  <span className="program-track-badge" style={badgeStyle}>
+                                    {renderedSession.track}
+                                  </span>
+                                  {sessionTimeRange ? (
+                                    <span className="program-session-time">{sessionTimeRange}</span>
+                                  ) : null}
+                                </div>
+                              ) : null}
+                              <div
+                                className="program-session-body"
+                                style={
+                                  isMergedSession
+                                    ? {
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                      }
+                                    : undefined
+                                }
+                              >
+                                <h3 style={{ textAlign: 'center', fontSize: '1.2rem', margin: 0 }}>
+                                  {isLunchRow ? 'Lunch' : renderedSession.title}
+                                </h3>
+                              </div>
+                              {!isLunchRow ? (
+                                <div className="program-session-footer" style={isMergedSession ? { alignSelf: 'stretch' } : undefined}>
+                                  {visiblePresenters.length > 0 ? (
+                                    <div className="program-session-presenters">
+                                      <span className="program-session-speaker">
+                                        {visiblePresenters.map((presenter, presenterIndex) => (
+                                          <span
+                                            key={`${renderedSession.slug}-presenter-${presenterIndex}`}
+                                          >
+                                            <span className="program-session-speaker-name">
+                                              {presenter.name}
+                                            </span>
+                                            {presenter.company ? (
+                                              <span className="program-session-speaker-company">
+                                                {' '}
+                                                ({presenter.company})
+                                              </span>
+                                            ) : (
+                                              ''
+                                            )}
+                                            {presenterIndex < visiblePresenters.length - 1
+                                              ? ', '
+                                              : ''}
+                                          </span>
+                                        ))}
+                                      </span>
+                                    </div>
+                                  ) : (
+                                    <div className="program-session-presenters" />
+                                  )}
+                                  <Link
+                                    className="program-session-more"
+                                    to={`/conference/sessions/${renderedSession.slug}`}
+                                  >
+                                    더 보기
+                                  </Link>
+                                </div>
+                              ) : null}
+                            </>
+                          )
+                        })()}
                       </div>
                     ) : allTracksEmptyOrPlaceholder ? (
                       // 모든 트랙이 비어있거나 전부 placeholder면 각 트랙별 빈 셀 표시 (1시간 발표가 차지한 셀 제외)
-                      trackOrder.map((track, trackIndex) => {
+                      TRACK_ORDER.map((track, trackIndex) => {
                         // 이전 행의 1시간 발표가 이 셀을 차지한 경우 아무것도 렌더링하지 않음
-                        if (isSpannedByPreviousRow(row.time, track)) {
+                        if (spannedCells.spanSet.has(spannedCells.cellKey(row.time, track))) {
                           return null
                         }
                         return (
@@ -365,12 +520,12 @@ const ConferencePage = () => {
                       })
                     ) : (
                       // 한쪽이라도 실제 세션이 있으면 각 트랙별로 표시
-                      trackOrder.map((track, trackIndex) => {
+                      TRACK_ORDER.map((track, trackIndex) => {
                         const session = row.sessions[track]
                         const style = getTrackStyle(session?.track ?? track)
 
                         // 이전 행의 1시간 발표가 이 셀을 차지한 경우 아무것도 렌더링하지 않음
-                        if (isSpannedByPreviousRow(row.time, track)) {
+                        if (spannedCells.spanSet.has(spannedCells.cellKey(row.time, track))) {
                           return null
                         }
 
@@ -485,12 +640,20 @@ const ConferencePage = () => {
                 </button>
               </div>
               {normalizedAgenda
-                .filter((item) => !item.placeholder && item.track === mobileTrackFilter)
+                .filter(
+                  (item) =>
+                    !item.placeholder &&
+                    (item.track === mobileTrackFilter || item.track === '공통'),
+                )
                 .length === 0 ? (
                 <div className="program-mobile-empty">준비중입니다</div>
               ) : (
                 normalizedAgenda
-                  .filter((item) => !item.placeholder && item.track === mobileTrackFilter)
+                  .filter(
+                    (item) =>
+                      !item.placeholder &&
+                      (item.track === mobileTrackFilter || item.track === '공통'),
+                  )
                   .map((item) => {
                     const presenters =
                       item.speakers && item.speakers.length > 0

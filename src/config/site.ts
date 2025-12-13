@@ -147,6 +147,7 @@ export const siteConfig = {
 
     agenda: {
       day1: [
+        { time: '09:30', title: '개회사' },
         { time: '10:00', track: 'TECH' },
         { time: '10:00', track: 'CAREER' },
         { time: '10:30', track: 'TECH' },
@@ -184,5 +185,4 @@ export const siteConfig = {
     copyright: `© ${new Date().getFullYear()} HolyShield`,
   },
 }
-
 
