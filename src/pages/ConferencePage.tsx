@@ -634,13 +634,13 @@ const ConferencePage = () => {
                   className={`program-mobile-tab ${mobileTrackFilter === 'TECH' ? 'program-mobile-tab-active' : ''}`}
                   onClick={() => setMobileTrackFilter('TECH')}
                 >
-                  TECH
+                  TECH (3층 컨퍼런스홀)
                 </button>
                 <button
                   className={`program-mobile-tab ${mobileTrackFilter === 'CAREER' ? 'program-mobile-tab-active' : ''}`}
                   onClick={() => setMobileTrackFilter('CAREER')}
                 >
-                  CAREER
+                  CAREER (2층 K267)
                 </button>
               </div>
               {normalizedAgenda
