@@ -340,7 +340,11 @@ const ConferencePage = () => {
               <div className="program-grid-head program-grid-time-head">Time</div>
               {TRACK_ORDER.map((track) => (
                 <div className="program-grid-head" key={`track-head-${track}`}>
-                  {track}
+                  {track === 'TECH'
+                    ? 'TECH (3층 컨퍼런스홀)'
+                    : track === 'CAREER'
+                      ? 'CAREER (2층 K267)'
+                      : track}
                 </div>
               ))}
               {scheduleRows.map((row, rowIndex) => {
