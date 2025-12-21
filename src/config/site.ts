@@ -10,6 +10,7 @@ type Speaker = {
   track?: string
   bio?: string
   body?: string[]
+  slidesUrl?: string
 }
 
 const speakers: Speaker[] = speakersData as Speaker[]
@@ -185,4 +186,3 @@ export const siteConfig = {
     copyright: `© ${new Date().getFullYear()} HolyShield`,
   },
 }
-

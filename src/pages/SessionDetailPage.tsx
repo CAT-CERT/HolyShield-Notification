@@ -32,6 +32,8 @@ const SessionDetailPage = () => {
   const presenterNames = toArray(session.name)
   const presenterImages = toArray(session.image)
   const presenterCompanies = toArray(session.company)
+  const slidesUrl = session.slidesUrl
+  const isExternalSlidesUrl = slidesUrl ? /^https?:\/\//i.test(slidesUrl) : false
 
   type Presenter = {
     name: string
@@ -70,9 +72,21 @@ const SessionDetailPage = () => {
             <span className="session-detail-time">{timeRange}</span>
           </div>
         ) : null}
-        <h1 id="session-detail-title" className="session-detail-title">
-          {session.topic}
-        </h1>
+        <div className="session-detail-title-row">
+          <h1 id="session-detail-title" className="session-detail-title">
+            {session.topic}
+          </h1>
+          {slidesUrl ? (
+            <a
+              className="action-button action-secondary session-detail-download"
+              href={slidesUrl}
+              download={!isExternalSlidesUrl}
+              {...(isExternalSlidesUrl ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+            >
+              발표자료 다운로드
+            </a>
+          ) : null}
+        </div>
         {presenters.length > 0 ? (
           <div className="session-detail-speakers">
             {presenters.map((presenter, index) => (

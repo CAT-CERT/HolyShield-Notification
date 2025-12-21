@@ -7,7 +7,8 @@
         "company": "HSPACE",
         "time": "09:30",
         "startTime": "09:30",
-        "endTime": "9:45"
+        "endTime": "9:45",
+		"slidesUrl":"https://drive.google.com/file/d/1Mc-UQJF9DKTqfM02xZTAuAMn01RmJGJV/view?usp=sharingㅋ"
     },
     {
         "id": "1",
@@ -37,7 +38,8 @@
         "bio": "안녕하세요.\nOffensive Security와 보안 컨설팅 경험을 바탕으로 넛지헬스케어에서 정보보호 담당자로 근무 중인 김태한입니다. 온라인 상에서는 Gaeduck이라는 닉네임을 사용하고 있습니다.\n게임개발로 커리어를 시작해 ERP 개발자로 일하다가, 보안의 본질적인 매력에 끌려 모의해킹 분야로 전향했고, 현재는 보안담당자로 정착해 조직의 보안 체계를 구축하고 있습니다.\nISMS 및 ISO27001 대응, 내부 보안 운영과 자동화 시스템 개발을 맡고 있으며, 법·규제 준수와 기술적 대응을 함께 수행하고 있습니다.",
         "body": [
           "해당 발표는 보안 담당자의 직무를 소개하며, 기술적 역량뿐 아니라 협업과 커뮤니케이션이 보안의 핵심 역량임을 이야기하고자 합니다.\n\n보안팀은 종종 '막는 팀'으로 불립니다.\n하지만 진짜 보안은 '막는 일'이 아니라, '가능하게 만드는 일'입니다.\n\n이 발표는 기술보다 '대화'와 '협업'에 초점을 맞춥니다.\n개발자와 보안담당자가 충돌하는 이유는 기술 때문이 아니라 '언어의 차이' 때문입니다.\n그 차이를 좁히기 위해, 보안담당자는 이제 규정을 말하는 사람이 아니라 소통의 언어를 설계하는 사람이 되어야 합니다.\n\n발표자의 실제 사례를 통해, 보안이 개발 속도를 늦추지 않으면서도 협업과 신뢰를 중심으로 조직 문화를 바꾸는 방법을 발표하고자 합니다.\n\n이 발표를 통해 보안담당자가 어떻게 'No Man'에서 'How Man'으로, 그리고 더 나아가 '신뢰 설계자'로 성장할 수 있는지 함께 살펴보게 됩니다."
-        ]
+        ],
+		"slidesUrl":"https://drive.google.com/file/d/1A6G_eHssztslvEq891fa1vzZAEKc1QDt/view?usp=sharing"
     },
     {
 		"id": "4",
@@ -67,7 +69,8 @@
 		"bio": "JS engine 및 Linux kernel 등 주요 소프트웨어를 대상으로 하여 자동화된 Bug hunting을 취미 삼아 간간히 하는 고려대학교 석박통합과정 이창헌입니다.",
 		"body": [
 			"Linux kernel과 JS engine은 크고, 복잡하고, 어렵다고 느껴지기 쉽습니다.\n0-day hunting은 익숙하지 않으며, 어디서부터 뭘 해야할지 모를 때가 많습니다.\n\n이와 같은 무거운 생각들과 막연한 난해함을 대신해 가벼운 취미로써 크고 복잡한 소프트웨어를 대상으로 어디서부터 0-day hunting을 시작하면 좋을지 다룹니다."
-		]
+		],
+		"slidesUrl":"https://drive.google.com/file/d/1oNR7adsXxh5hB_IBUBwaVeC93Lh2DUuu/view?usp=sharing"
 	},
 	{
 		"id": "6",
@@ -82,7 +85,8 @@
 		"bio": "Web3 좋아하는 사람",
 		"body": [
 			"20살 처음 컴퓨터를 접했을 때부터, 보안 분야를 거쳐 암호화폐 헤지펀드까지 오게 된 스토리"
-		]
+		],
+		"slidesUrl":"https://drive.google.com/file/d/1pfFJIMRzDiA3d1ZcRCtHvzVghJf5GwMZ/view?usp=drive_link"
 	},
 	{
 		"id": "7",
@@ -97,7 +101,8 @@
 		"bio": "고려대학교 세종캠퍼스 인공지능사이버보안학과에 재학중인 3학년 학부생입니다. 취미로 버그헌팅을 하고 있습니다.",
 		"body": [
 			"기존에 알려진 1-day 취약점을 바탕으로, 이를 어떻게 분석·응용해 새로운 0-day 취약점으로 확장했는지에 대한 스토리를 담고 있습니다."
-		]
+		],
+		"slidesUrl":"https://drive.google.com/file/d/1L7DlJAdpsxuMNm99hGKA2Y1txxcxc96a/view?usp=sharing"
 	},
 	{
 		"id": "8",
@@ -112,7 +117,8 @@
 		"bio": "I am currently working at RaonSecure Co., Ltd. as a PM in the Core Research Team, where I do security research and penetration testing projects focused on web and application vulnerabilities. My work spans web-based penetration testing, vulnerability diagnosis, and reverse engineering — driving practical security assessments and mitigation strategies that enhance system resilience.\nPreviously, I served as a Senior Researcher on the Proactive Response Team at Stealien, conducting in-depth vulnerability research on embedded and IoT systems. There, I focused on exploit development, PoC implementation, and technical reporting to support vulnerability remediation and disclosure. Earlier, as a Researcher at Four Chains, I contributed to the development of the LIS System, Modulus platform, and CBDC confidentiality testing project, gaining hands-on experience in blockchain and financial security domains.\nThrough these experiences, I have built multidisciplinary expertise across web, embedded, and blockchain security, specializing in threat modeling, reverse engineering, vulnerability verification, and mitigation. My goal is to bridge advanced technical research with real-world impact by identifying and addressing security weaknesses in critical infrastructure and digital services.\nI have also contributed to numerous public vulnerability disclosures, including KVE-2025-0160, CVE-2024-4464, CVE-2024-50395, and several CVE-2024-53xxx series vulnerabilities. My achievements include placing 5th in the 2024 BISC CTF (Excellence Award) and completing the Best of the Best (BOB) 12th program in the Vulnerability Analysis Track, further validating my capabilities in offensive security and technical leadership.",
 		"body": [
 			"I will introduce several 0-day vulnerabilities that I previously discovered, including their assigned CVE and KVE identifiers, and provide an in-depth review of their root causes."
-		]
+		],
+		"slidesUrl": "https://drive.google.com/file/d/1JC1fhrRpPVzonVeHkWIM_G9-vmwa7FBK/view?usp=sharing"
 	},
 	{
 		"id": "9",
@@ -127,7 +133,8 @@
 		"bio": "성공회대학교에 재학 중인 김강민입니다.\nBoB 13기에서 가상화 소프트웨어 취약점 분석 프로젝트의 PM으로 활동하며, 진행 중 찾은 취약점을 기반으로 Pwn2Own VirtualBox 부문에서 성공적인 결과를 이루었습니다. 이러한 경험을 바탕으로, 최근에도 가상화 소프트웨어 버그 헌팅을 지속적으로 이어가고 있습니다.",
 		"body": [
 			"첫 가상화 소프트웨어 프로젝트를 진행하며 마주했던 시행착오와 어려움을 중심으로, 가상화 취약점 분석을 처음 접하는 분들도 기본적인 구성 요소와 분석 절차를 이해하고 실제로 분석을 시작할 수 있도록 내용을 구성했습니다. 또한 Pwn2Own 대회에 도전했던 과정 전반(대회 소개, 실제 분석·구현 과정에서 직면했던 문제들과 해결 과정)을 공유함으로써, 이후 같은 대회에 도전하고자 하는 분들에게 도움이 되고자 합니다."
-		]
+		],
+		"slidesUrl":"https://drive.google.com/file/d/15yRp5dVcXdJfyx9Sw6-Fto2qgsJVFTxH/view?usp=sharing"
 	},
 	{
 		"id": "10",
@@ -142,7 +149,8 @@
 		"bio": "숭실대학교 소프트웨어학부에서 재학중인 3학년 학부생입니다.\n숭실대학교 정보보안 동아리 ASC에서 회장을 맡고 있으며, 사이버보안랩실에서 3년차 연구원으로 AI보안 관련 과제들을 진행하고 있습니다.\n여러 보안 대회에 Operator로 가끔씩 참가하고 있습니다.",
 		"body": [
 			"요즘 AI Security가 CTF에 간간이 등장하며 새로운 분야에 대해 호기심을 가지는 분들이 있으실 것 같습니다. 그런 인공지능 보안이라는 분야에 발을 담구게된 계기와 경험을 통해 느낀 점, 그리고 인공지능 보안 연구자의 입장에서 바라본 AI와 해킹, AI보안 분야에 대한 이야기를 해당 발표에 담아보고자 합니다."
-		]
+		],
+		"slidesUrl":"https://drive.google.com/file/d/1sun6Qnn1Ak9x8MC5j0eEpO9ih0AKCz0A/view?usp=drive_link"
 	},
 	{
 		"id": "11",
@@ -157,7 +165,8 @@
 		"bio": "BoB 12기 보안컨설팅 트랙 수료 이후 현재 NIT Service에서 NAVER 사내 보안운영 담당자로 근무하고 있습니다. 주로 내부 기밀유출 탐지/차단, 비업무 사이트 차단 업무를 맡고 있습니다.",
 		"body": [
 			"AI를 활용한 해킹 및 침해사고가 증가하고 있는 가운데, 인하우스 보안 담당자의 관점에서 바라본 AI의 필요성과 활용 방안을 소개하고 실제 실무 경험을 바탕으로 예비 보안 담당자가 갖추면 좋을 역량을 공유하고자 합니다."
-		]
+		],
+		"slidesUrl":"https://drive.google.com/file/d/1KSatlT7FRr-A-dYp10JHxCQPXsbucarH/view?usp=drive_link"
 	},
 	{
 		"id": "12",
@@ -187,6 +196,7 @@
 		"bio": "단국대학교 물리학과 & 사이버보안학과 4학년으로 재학중인 전수빈입니다. CCA 소속 교내 중앙 개발 및 보안 동아리인 Aegis의 보안팀에 속해있으며 엔키화이트햇에서 인턴을 했었습니다.",
 		"body": [
 			"다소 어설펐지만 한 달 동안 직접 버그바운티에 뛰어들며 시도·실패·발견을 반복한 경험을 담았습니다. 초보자가 실제로 무엇을 하고 어떤 시행착오를 겪는지 솔직하게 공유합니다."
-		]
+		],
+		"slidesUrl":"https://drive.google.com/file/d/1Cz61jBQbbfv51poPL3JElkMr3sxswgZk/view?usp=sharing"
 	}
 ]
