@@ -23,7 +23,8 @@
         "bio": "이재영 : 현재 선린인터넷고등학교 정보보호과에 재학중이며 Binary Exploitation/obfuscation을 주로 공부하고 있습니다.\n이건우 : 현재 충주고등학교에 재학중이며 Linux Kernel/Binary Exploitation을 주로 공부하고 있습니다.",
         "body": [
           "한국에서 널리 쓰이는 가정용 IP 카메라의 ONVIF 처리부 xmlNormalize 함수에서 발생하는 NULL 혼입 기반 힙 오버플로우 취약점을 분석하고, 이를 이용한 인증 전 원격 코드 실행(Pre-Auth RCE) 익스플로잇을 구현·시연하겠습니다"
-        ]
+        ],
+		"slidesUrl":"https://drive.google.com/file/d/1YBtPq2t8jnf_PKujY8uxk0fMBiz0rWS4/view?usp=sharing"
     },
     {
         "id": "2",
